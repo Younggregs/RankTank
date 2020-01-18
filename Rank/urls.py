@@ -8,6 +8,9 @@ urlpatterns = [
     #auth/
     url(r'^auth/$', drf_views.obtain_auth_token, name='auth'),
 
+    #ranktank/signin
+    url(r'^isloggedin/$',views.IsLoggedIn.as_view(), name = 'is-logged-in'),
+
     #ranktank/signup
     url(r'^signup/$',views.SignUp.as_view(), name = 'sign-up'),
 
@@ -22,6 +25,9 @@ urlpatterns = [
 
     #ranktank/rank_vote
     url(r'^rank_vote/(?P<url>\w+)/$',views.RankVote.as_view(), name = 'rank_vote'),
+
+    #ranktank/rank_vote
+    url(r'^rank_result/(?P<url>\w+)/$',views.RankResult.as_view(), name = 'rank_result'),
 
     #ranktank/private_rank_vote
     url(r'^rank_private_vote/(?P<url>\w+)/$',views.RankPrivateVote.as_view(), name = 'rank_private_vote'),

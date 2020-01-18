@@ -41,6 +41,64 @@ def url_code_generator(size=16, chars=string.ascii_lowercase + string.digits):
 
 
 
+def get_account(request):
+
+    if request.user.is_authenticated:
+        user = User.objects.get(username = request.user)
+        email = user.username
+
+
+        account = Account.objects.get(email = email)
+
+        return account
+
+    else:
+        
+        return -1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class IsLoggedIn(APIView):
+
+    def get(self, request):
+
+        signed_in = False
+
+        try:
+            account = get_account(request)
+            signed_in = True
+
+        except:
+
+            pass
+            
+
+        return Response(signed_in)
+
+
+    
+    def post(self, request):
+
+        pass
+
+
+
+
+
+
 
 
 
@@ -273,6 +331,7 @@ class NewContest(APIView):
 
     def get(self, request):
         
+
         contest = Contest.objects.all()
 
         serializer = ContestSerializer( contest, many=True)
@@ -282,9 +341,9 @@ class NewContest(APIView):
     def post(self, request):
 
         ####Auth
-        account = Account.objects.get(id = 1)
+        account = get_account(request)
 
-        name = request.POST.get("name","")
+        title = request.POST.get("title","")
         contestants = request.POST.get("contestants","")
 
         url = url_code_generator()
@@ -302,7 +361,7 @@ class NewContest(APIView):
 
         new_contest = Contest()
         new_contest.account = account
-        new_contest.name = name
+        new_contest.title = title
         new_contest.url = url
         new_contest.save()
 
@@ -359,9 +418,9 @@ class NewPrivateContest(APIView):
     def post(self, request):
 
         ####Auth
-        account = Account.objects.get(id = 1)
+        account = get_account(request)
 
-        name = request.POST.get("name","")
+        title = request.POST.get("title","")
         contestants = request.POST.get("contestants","")
         email_list = request.POST.get("email_list","")
 
@@ -381,7 +440,7 @@ class NewPrivateContest(APIView):
 
         new_contest = Contest()
         new_contest.account = account
-        new_contest.name = name
+        new_contest.title = title
         new_contest.url = url
         new_contest.save()
 
@@ -468,7 +527,7 @@ class RankVote(APIView):
     def post(self, request, url):
 
         ####Auth
-        account = Account.objects.get(id = 1)
+        account = get_account(request)
 
         bug_net = 20
         
@@ -540,6 +599,69 @@ class RankVote(APIView):
             
 
         
+
+
+
+
+
+class RankResult(APIView):
+
+    def get(self, request, url):
+
+        try: 
+            account = get_account(request)
+
+            try:
+                contest = Contest.objects.get(url = url)
+
+                try: 
+                    contest = Contest.objects.get(url = url, account_id = account.id)
+                    contest_id = contest.id 
+
+                    result = Contestant.objects.filter(contest_id = contest_id)
+            
+                    serializer = ContestantSerializer(result, many = True)
+                    return Response(serializer.data)
+
+                except: 
+                    error = 'Sorry you do not have permission to access this page.'
+        
+                    err = {
+                        'error' : error
+                    }
+                    serializer = ErrorCheckSerializer( err, many=False)
+
+                    return Response(serializer.data)
+
+
+            except:
+                error = 'Sorry wrong address, check the url and try again'
+        
+                err = {
+                    'error' : error
+                }
+                serializer = ErrorCheckSerializer( err, many=False)
+
+                return Response(serializer.data)
+
+            
+
+            
+
+        except:
+            error = 'You must be logged in to access this page.'
+        
+            err = {
+                'error' : error
+            }
+            serializer = ErrorCheckSerializer( err, many=False)
+
+            return Response(serializer.data)
+        
+        
+
+    def post(self, request):
+        pass
         
 
 
@@ -723,7 +845,8 @@ class MyRTList(APIView):
 
     def get(self, request):
         
-        contest = Contest.objects.all()
+        account = get_account(request)
+        contest = Contest.objects.filter(account_id = account.id)
 
         serializer = ContestSerializer( contest, many=True)
         return Response(serializer.data)

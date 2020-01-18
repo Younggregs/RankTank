@@ -20,17 +20,18 @@ class Account(models.Model):
     date = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return email
+        return self.email
 
 
 class Contest(models.Model): 
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
-    name = models.CharField(max_length = 200)
+    title = models.CharField(max_length = 200)
     url = models.CharField(max_length = 200)
+    status = models.BooleanField(default=True)
     date = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return name
+        return self.title
 
 
 
@@ -42,7 +43,7 @@ class Contestant(models.Model):
     date = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return contestant
+        return self.contestant
 
     class Meta:
         ordering = ['rank']
@@ -58,7 +59,7 @@ class PrivateVoter(models.Model):
     date = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return voter
+        return self.voter
 
     class Meta:
         ordering = ['voter']
@@ -75,4 +76,4 @@ class ForgotPassword(models.Model):
     date = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return reset_code
+        return self.reset_code

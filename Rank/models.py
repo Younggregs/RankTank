@@ -13,8 +13,7 @@ import pytz
 class Account(models.Model): 
     email = models.CharField(max_length = 200)
     password = models.CharField(max_length = 20)
-    firstname = models.CharField(max_length = 20, default='Oo')
-    lastname = models.CharField(max_length = 20, default='Oo')
+    name = models.CharField(max_length = 20, default='o')
     is_admin = models.BooleanField(default=False)
     is_super = models.BooleanField(default=False)
     date = models.DateTimeField(default = timezone.now)

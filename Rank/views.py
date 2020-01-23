@@ -134,8 +134,7 @@ class SignUp(APIView):
 
             email = serializer.data['email']
             password = serializer.data['password']
-            firstname = serializer.data['firstname']
-            lastname = serializer.data['lastname']
+            name = serializer.data['name']
             is_admin = serializer.data['is_admin']
             is_super = serializer.data['is_super']
 
@@ -164,8 +163,7 @@ class SignUp(APIView):
             user = User()
             user.username = email
             user.password = password
-            user.first_name = firstname
-            user.last_name = lastname
+            user.first_name = name
             user.save()
 
             user = authenticate(username=email, password=raw_password)
@@ -176,11 +174,8 @@ class SignUp(APIView):
                 login(request, user)
 
                 account = Account()
-                account.firstname = firstname
-                account.lastname = lastname
+                account.name = name
                 account.email = email
-                account.is_admin = is_admin
-                account.is_super = is_super
                 account.password = password
                 account.save()
 
@@ -463,7 +458,7 @@ class NewPrivateContest(APIView):
 
             v_url = url_code_generator()
 
-            message = 'RankTank Title: ' + name + '\n\nHello dear, use this RankTank link to vote -> http://127.0.0.1:3000/private_rank/' +  str(v_url) + '\n\n RankTank, fair and smooth!\n'
+            message = 'RankTank Title: ' + title + '\n\nHello dear, use this RankTank link to vote -> http://127.0.0.1:3000/private_rank/' +  str(v_url) + '\n\n RankTank, fair and smooth!\n'
             email = EmailMessage('RankTank Private Vote', message, to=[voter])
             email.send()
 

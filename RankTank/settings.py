@@ -102,7 +102,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rank_db',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'open_sesame',
         'HOST':'127.0.0.1',
         'PORT':'3306',
     }

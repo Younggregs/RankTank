@@ -25,8 +25,7 @@ SECRET_KEY = 'n)e!8^kigc+hhclw@h=wn8en+ifgj6!%gvycf=(u#2_&*+)fq*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['167.172.221.98']
-
+ALLOWED_HOSTS = ['64.225.123.17', 'ranq.xyz', 'www.ranq.xyz']
 
 # Application definition
 
@@ -66,10 +65,9 @@ REST_FRAMEWORK = {
 
 
 CORS_ORIGIN_WHITELIST = (
-    'http://127.0.0.1:3000',
-    'http://167.172.221.98:3000',
-    'http://167.172.221.98',
-    'http://localhost:8080'
+    'http://127.0.0.1',
+    'http://localhost',
+    'http://64.225.123.17',
 )
 
 

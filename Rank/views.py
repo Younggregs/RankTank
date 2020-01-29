@@ -840,11 +840,19 @@ class MyRTList(APIView):
 
     def get(self, request):
         
-        account = get_account(request)
-        contest = Contest.objects.filter(account_id = account.id)
+        try:
+            account = get_account(request)
+            contest = Contest.objects.filter(account_id = account.id)
 
-        serializer = ContestSerializer( contest, many=True)
-        return Response(serializer.data)
+            serializer = ContestSerializer( contest, many=True)
+            return Response(serializer.data)
+
+        except:
+            pass
+
+        return Response(False)
+
+        
 
 
     def post(self, request):

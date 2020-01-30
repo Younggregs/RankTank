@@ -29,7 +29,7 @@ urlpatterns = [
     #ranktank/rank_vote
     url(r'^rank_result/(?P<url>\w+)/$',views.RankResult.as_view(), name = 'rank_result'),
 
-    #ranktank/private_rank_vote
+    #ranktank/private_randk_vote
     url(r'^rank_private_vote/(?P<url>\w+)/$',views.RankPrivateVote.as_view(), name = 'rank_private_vote'),
 
     #ranktank/rank_vote

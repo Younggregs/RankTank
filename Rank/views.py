@@ -43,16 +43,16 @@ def url_code_generator(size=16, chars=string.ascii_lowercase + string.digits):
 
 def get_account(request):
 
-    if request.user.is_authenticated:
-        user = User.objects.get(username = request.user)
-        email = user.username
+    try: 
+        if request.user.is_authenticated:
+            user = User.objects.get(username = request.user)
+            email = user.username
 
 
         account = Account.objects.get(email = email)
-
         return account
 
-    else:
+    except:
         
         return -1
 
@@ -458,7 +458,7 @@ class NewPrivateContest(APIView):
 
             v_url = url_code_generator()
 
-            message = 'RankTank Title: ' + title + '\n\nHello dear, use this RankTank link to vote -> http://127.0.0.1:3000/private_rank/' +  str(v_url) + '\n\n RankTank, fair and smooth!\n'
+            message = 'RankTank Title: ' + title + '\n\nHello dear, use this RankTank link to vote -> http://ranq.xyz/private_rank/' +  str(v_url) + '\n\n RankTank, fair and smooth!\n'
             email = EmailMessage('RankTank Private Vote', message, to=[voter])
             email.send()
 
@@ -850,7 +850,8 @@ class MyRTList(APIView):
         except:
             pass
 
-        return Response(False)
+        empty=[]
+        return Response(empty)
 
         
 
@@ -1061,7 +1062,7 @@ class ResetPasswordEmail(APIView):
             forgotPassword.reset_code = reset_code
             forgotPassword.save()
 
-            message = 'RankTank Password Recovery: ' + name + '\n\nHello dear, use this RankTank link to reset your password -> http://127.0.0.1:3000/reset_password/' +  str(reset_code) + '\n\n RankTank, fair and smooth!\n'
+            message = 'RankTank Password Recovery: ' + name + '\n\nHello dear, use this RankTank link to reset your password -> http://ranq.xyz/reset_password/' +  str(reset_code) + '\n\n RankTank, fair and smooth!\n'
             email = EmailMessage('RankTank Password Recovery', message, to=[email_adr])
             email.send()
 
